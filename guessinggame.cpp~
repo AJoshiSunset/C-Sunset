@@ -1,0 +1,14 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+  int number = 0;
+  srand(time(0));
+  number = rand() % 100 + 0;
+
+  cout << number << "Generated Number:" << endl;
+  
+  return 0;
+}
