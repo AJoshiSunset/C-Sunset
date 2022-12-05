@@ -4,7 +4,7 @@ using namespace std;
 #include <cstring>
 
 int main() {
-
+  cout << "Hello" << endl;
 
   return 0;
 }
