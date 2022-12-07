@@ -7,20 +7,21 @@ using namespace std;
 #include "room.h"
 
 room::room() {
-  int roomID = 0;
+  //int ID = 0;
   vector<char> itemsVec;
   int itemsIndex = 0;
   char charItemReturn = 'q';
+  int direction = 0;
+}
+/*
+int room::getID() {
+  return ID;
 }
 
-int room::getRoomID() {
-  return roomID;
+void room::addID(int id) {
+  ID = id;
 }
-
-void room::addRoomID(int id) {
-  roomID = id;
-
-}
+*/
 
 void room::addItem(char itemAdded) {
   itemsVec[itemsIndex] = itemAdded;
@@ -29,4 +30,8 @@ void room::addItem(char itemAdded) {
 
 vector<char> room::getItem() {
   return itemsVec;
+}
+
+void room::addDirection(int dirAdded) {
+  direction = dirAdded;
 }

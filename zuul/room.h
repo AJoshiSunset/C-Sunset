@@ -7,19 +7,29 @@ using namespace std;
 class room {
  public:
   room();
+  /*
+  int getID();
 
-  int getRoomID();
+  int ID;
 
-  int roomID;
-
-  void addRoomID(int);
-
+  void addID(int);
+  */
   void addItem(char);
 
-  int itemsIndex = 0;
+  int itemsIndex;
   
   vector<char> getItem();
 
   vector<char> itemsVec;
 
+  void addDirection(int);
+
+  int getDirection();
+
+  int direction;
+  /*
+  void addName(char[]);
+
+  char getName();
+  */
 };
