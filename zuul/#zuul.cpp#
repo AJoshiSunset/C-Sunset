@@ -14,15 +14,14 @@ using namespace std;
 
  */
 
-int getRealID(vector<room*>& v, int ID) {
-  for (int i = 0; i < 16; i++) {
-    cout << i << endl;
-    if (v[i]->getID() == ID) {
-      cout << i << endl;
-      return i;
+int getRealID(vector<room*> & v, int ID)
+{
+  for (int i = 0; i < v.size(); i++) {
+    if (v[i]->getID() == ID)
+      {
+	return i;
       }
   }
-  return 0;
 }
 
 int main() {
@@ -143,14 +142,12 @@ int main() {
 
   }
 
-  cout << getRealID(v, currentID);
-  /*
   while (1 == 1)
     {
       cout << getRealID(v, currentID);
       //cout << "You are at " << v[getRealID(v, currentID)]->getName() << "." << endl;
     }
-  */
+
   
     }
   cout << v.size() << endl;

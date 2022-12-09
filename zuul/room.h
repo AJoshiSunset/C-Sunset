@@ -7,13 +7,13 @@ using namespace std;
 class room {
  public:
   room();
-  /*
+  
   int getID();
 
   int ID;
 
   void addID(int);
-  */
+  
   void addItem(char);
 
   int itemsIndex;
@@ -22,14 +22,18 @@ class room {
 
   vector<char> itemsVec;
 
+  //char charItemReturn;
+
   void addDirection(int);
 
   int getDirection();
 
   int direction;
-  /*
-  void addName(char[]);
+  
+  void addName(char*);
 
-  char getName();
-  */
+  char* getName();
+
+  char* name;
+  
 };

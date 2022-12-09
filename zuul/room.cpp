@@ -8,12 +8,13 @@ using namespace std;
 
 room::room() {
   //int ID = 0;
-  vector<char> itemsVec;
-  int itemsIndex = 0;
-  char charItemReturn = 'q';
-  int direction = 0;
+  //itemsVec = new vector<char>();
+  itemsIndex = 0;
+  //charItemReturn = 'q';
+  direction = 0;
+  name = new char[50];
 }
-/*
+
 int room::getID() {
   return ID;
 }
@@ -21,7 +22,7 @@ int room::getID() {
 void room::addID(int id) {
   ID = id;
 }
-*/
+
 
 void room::addItem(char itemAdded) {
   itemsVec[itemsIndex] = itemAdded;
@@ -34,4 +35,12 @@ vector<char> room::getItem() {
 
 void room::addDirection(int dirAdded) {
   direction = dirAdded;
+}
+
+void room::addName(char* nameAdded) {
+  strcpy(name, nameAdded);
+}
+
+char* room::getName() {
+  return name;
 }
