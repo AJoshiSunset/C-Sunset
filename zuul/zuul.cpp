@@ -3,6 +3,7 @@ using namespace std;
 #include <iostream>
 #include <cstring>
 #include <vector>
+#include <iterator>
 
 #include "room.h"
 
@@ -12,23 +13,51 @@ using namespace std;
   south = 4
   west = 8
 
+  jacket = 1
+  car keys = 2
+  high heels = 3
+  ornament = 4
+  food = 5
  */
 
-int getRealID(vector<room*>& v, int ID) {
-  for (int i = 0; i < 16; i++) {
-    cout << i << endl;
-    if (v[i]->getID() == ID) {
-      cout << i << endl;
-      return i;
+room* getRoom(vector<room*>& v, int ID) {
+  /*
+  int i = 0;
+  for (vector<room*>::iterator itr = v.begin(); itr != v.end(); itr++)
+    {
+      if ((*itr)->getID() == ID)
+	{
+	  return (*itr);
+	  //cout << (*itr)->getName() << endl;
+	  //return i;
+	}
+      i++;
+    }
+
+  return v[0];
+  */
+
+  
+  for (int i = 0; i < 16; i++)
+    {
+      //cout << v[i]->getName() << endl;
+      
+      if (v[i]->getID() == ID)
+      {
+	//cout << i << endl;
+      //return i;
+	return v[i];
       }
   }
-  return 0;
+
+  return v[0];
+  
 }
 
 int main() {
   vector<room*> v;
   int currentID = 17;
-
+    
   char* tempname = new char[50];
   
   for (int i = 0; i < 16; i++)
@@ -56,7 +85,7 @@ int main() {
     v[i]->addID(3);
     strcpy(tempname, "Lake");
     v[i]->addName(tempname);
-    v[i]->addItem('o');
+    v[i]->addItem('4');
     break;
   case 3:
     v[i]->addDirection(6);
@@ -69,7 +98,7 @@ int main() {
     v[i]->addID(8);
     strcpy(tempname, "Shop");
     v[i]->addName(tempname);
-    v[i]->addItem('f');
+    v[i]->addItem('5');
     break;
   case 5:
     v[i]->addDirection(4);
@@ -106,7 +135,7 @@ int main() {
     v[i]->addID(16);
     strcpy(tempname, "Gas Station");
     v[i]->addName(tempname);
-    v[i]->addItem('j');
+    v[i]->addItem('1');
     break;
   case 11:
     v[i]->addDirection(13);
@@ -125,7 +154,7 @@ int main() {
     v[i]->addID(21);
     strcpy(tempname, "Diner");
     v[i]->addName(tempname);
-    v[i]->addItem('c');
+    v[i]->addItem('2');
     break;
   case 14:
     v[i]->addDirection(11);
@@ -138,12 +167,12 @@ int main() {
     v[i]->addID(23);
     strcpy(tempname, "Parking Lot");
     v[i]->addName(tempname);
-    v[i]->addItem('h');
+    v[i]->addItem('3');
     break;
 
   }
 
-  cout << getRealID(v, currentID);
+  cout << getRoom(v, currentID)->getName() << endl;
   /*
   while (1 == 1)
     {
@@ -153,7 +182,7 @@ int main() {
   */
   
     }
-  cout << v.size() << endl;
+  //cout << v.size() << endl;
 
 
   //cout << "ID: " << v[0]->getRoomID() << endl;

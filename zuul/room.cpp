@@ -7,7 +7,7 @@ using namespace std;
 #include "room.h"
 
 room::room() {
-  //int ID = 0;
+  ID = 0;
   //itemsVec = new vector<char>();
   itemsIndex = 0;
   //charItemReturn = 'q';
@@ -15,21 +15,22 @@ room::room() {
   name = new char[50];
 }
 
-int room::getID() {
-  return ID;
-}
-
 void room::addID(int id) {
   ID = id;
 }
 
+int room::getID() {
+  return ID;
+}
 
-void room::addItem(char itemAdded) {
-  itemsVec[itemsIndex] = itemAdded;
+void room::addItem(int itemAdded) {
+  //strcpy(itemsVec[itemsIndex], itemAdded);
+  itemsVec.push_back(itemAdded);
+  //itemsVec[itemsIndex] = itemAdded;
   itemsIndex++;
 }
 
-vector<char> room::getItem() {
+vector<int> room::getItem() {
   return itemsVec;
 }
 

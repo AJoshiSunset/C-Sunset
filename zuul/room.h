@@ -14,13 +14,13 @@ class room {
 
   void addID(int);
   
-  void addItem(char);
+  void addItem(int);
 
   int itemsIndex;
   
-  vector<char> getItem();
+  vector<int> getItem();
 
-  vector<char> itemsVec;
+  vector<int> itemsVec;
 
   //char charItemReturn;
 
