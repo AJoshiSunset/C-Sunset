@@ -9,10 +9,10 @@ using namespace std;
 room::room() {
   ID = 0;
   //itemsVec = new vector<char>();
-  itemsIndex = 0;
   //charItemReturn = 'q';
   direction = 0;
-  name = new char[50];
+  name = new char[800];
+  strcpy(name, "null");
 }
 
 void room::addID(int id) {
@@ -24,10 +24,19 @@ int room::getID() {
 }
 
 void room::addItem(int itemAdded) {
-  //strcpy(itemsVec[itemsIndex], itemAdded);
   itemsVec.push_back(itemAdded);
-  //itemsVec[itemsIndex] = itemAdded;
-  itemsIndex++;
+}
+
+void room::removeItem(int itemRemoved)
+{
+  for (int i = 0; i < itemsVec.size(); i++)
+    {
+      if (itemsVec[i] == itemRemoved)
+	{
+	  //delete itemsVec[i];
+	  itemsVec.erase(itemsVec.begin() + i);
+	}
+    }
 }
 
 vector<int> room::getItem() {
@@ -36,6 +45,10 @@ vector<int> room::getItem() {
 
 void room::addDirection(int dirAdded) {
   direction = dirAdded;
+}
+
+int room::getDirection() {
+  return direction;
 }
 
 void room::addName(char* nameAdded) {

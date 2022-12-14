@@ -16,13 +16,11 @@ class room {
   
   void addItem(int);
 
-  int itemsIndex;
+  void removeItem(int);
   
   vector<int> getItem();
 
   vector<int> itemsVec;
-
-  //char charItemReturn;
 
   void addDirection(int);
 
