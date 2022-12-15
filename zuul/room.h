@@ -4,16 +4,15 @@ using namespace std;
 #include <cstring>
 #include <vector>
 
+/*
+  This is the .h file for the room. It has the variables and
+  functions needed for the room.cpp functionality.
+ */
+
 class room {
  public:
   room();
-  
-  int getID();
-
-  int ID;
-
-  void addID(int);
-  
+   
   void addItem(int);
 
   void removeItem(int);

@@ -6,21 +6,17 @@ using namespace std;
 
 #include "room.h"
 
+/*
+  This is the .cpp file for the room. It allows to add, remove,
+  store, and give back items. It can also add, store, and give
+  back the name. It will also add, store, and give back the
+  direction.
+ */
+
 room::room() {
-  ID = 0;
-  //itemsVec = new vector<char>();
-  //charItemReturn = 'q';
   direction = 0;
   name = new char[800];
   strcpy(name, "null");
-}
-
-void room::addID(int id) {
-  ID = id;
-}
-
-int room::getID() {
-  return ID;
 }
 
 void room::addItem(int itemAdded) {
@@ -33,7 +29,6 @@ void room::removeItem(int itemRemoved)
     {
       if (itemsVec[i] == itemRemoved)
 	{
-	  //delete itemsVec[i];
 	  itemsVec.erase(itemsVec.begin() + i);
 	}
     }
