@@ -1,0 +1,18 @@
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+#include "node.h"
+
+class student: public node {
+ public:
+  student();
+
+  //student* getStudent();
+
+  char* name;
+
+  char* setStudentName(char*);
+  
+};

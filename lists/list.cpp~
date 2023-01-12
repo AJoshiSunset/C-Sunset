@@ -1,0 +1,36 @@
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+#include "node.h"
+#include "student.h"
+
+int main() {
+  //create node head
+  // create student
+  // set head as student
+  // create new student
+  // set new student and setnext node from head
+  
+  student* s = new student();
+  char* c = new char[50];
+  cin.get(c, 50);
+  s->setStudentName(c);
+  
+  node* n = new node(s);
+
+  student* w = new student();
+  cin.get(c, 50);
+  w->setStudentName(c);
+  
+  node* l = new node(w)
+  n->setNext(l);
+
+  cout << "n's next: " << n->getNext() << endl;
+  cout << "n's next's student: " << n->getNext()->getStudent() << endl;
+
+  n->getNext()~;
+  
+  return 0;
+}

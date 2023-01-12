@@ -1,0 +1,19 @@
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+#include "student.h"
+
+student::student() {
+  name = new char[50];
+
+}
+/*
+student* getStudent() {
+
+}
+*/
+void setStudentName(char* nameVal) {
+  name = nameVal;
+}
