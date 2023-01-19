@@ -1,0 +1,17 @@
+#include <iostream>
+#include <cstring>
+
+#include "student.h"
+#include "node.h"
+
+using namespace std;
+
+int main() {
+
+
+  cout << "hello" << endl;
+
+
+  return 0;
+}
+
