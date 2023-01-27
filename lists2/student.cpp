@@ -24,7 +24,7 @@ Student::Student(char* nameVal) {
 void Student::setName(char* nameval)
 {
   strcpy(name, nameval);
-  }
+}
 
 char* Student::getName() {
   return name;

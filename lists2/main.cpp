@@ -6,9 +6,17 @@
 
 using namespace std;
 
-void addStudent(Node* & h, Student* b)
+void addStudent(Node* c, Student* blank)
 {
+  /*
+  if (c->getStudent() == blank)
+    {
+      c = c->getNext();
+      addStudent(c, blank);
+    }
+  */
   char* name = new char[50];
+  char* lastname = new char[50];
   Student* s = new Student();
   
   cout << "Enter fist name:" << endl;
@@ -19,8 +27,8 @@ void addStudent(Node* & h, Student* b)
   cin.ignore(1000, '\n');
   
   cout << "Enter last name:" << endl;
-  cin.getline(name, 50);
-  s->setLastName(name);
+  cin.getline(lastname, 50);
+  s->setLastName(lastname);
 
   int id = 0;
   cout << "Enter ID:" << endl;
@@ -33,32 +41,74 @@ void addStudent(Node* & h, Student* b)
   s->setGPA(gpa);
 
   Node* n = new Node(s);
-  Node* temp = new Node(b);
+  n->setNext(NULL);
+  Node* temp = c;
   
-  temp = h;
   while (temp->getNext() != NULL)
     {
       temp = temp->getNext();
     }
   temp->setNext(n);
+    
 }
 
-void printStudent(Node* c)
+void printStudent(Node* c, Student* blank)
 {
   if (c != NULL)
     {
       // make sure not to print out the head
+      if (c->getStudent() == blank)
+	{
+	  c = c->getNext();
+	    printStudent(c, blank);
+	    return;
+	}
+      cout << c->getStudent()->getName() << " " << c->getStudent()->getLastName() << ", " << c->getStudent()->getID() << ", " << c->getStudent()->getGPA() << endl;
+      printStudent(c->getNext(), blank);
+      /*
       //print gpa and stuff
+        Node* temp = c;
+
+	// use recursion to call the function again each time
+	while (temp != NULL)
+	  {
+	    cout << temp->getStudent()->getName() << " " << temp->getStudent()->getLastName() << ", " << temp->getStudent()->getID() << ", " << temp->getStudent()->getGPA() << endl;
+	    temp = temp->getNext();
+	  }
     }
-  Node* temp = new Node(b);
-  temp = h->getNext();
-  while (temp != NULL)
+      */
+    }
+}
+
+void deleteStudent(Node* c, Student* blank, int idans)
+{
+  if (c != NULL)
     {
-      cout << temp->getStudent()->getName() << " " << temp->getStudent()->getLastName() << ", " << temp->getStudent()->getID() << ", " << temp->getStudent()->getGPA() << endl;
-      temp = temp->getNext();
+      /*
+      if (c->getStudent() == blank)
+	{
+	  c = c->getNext();
+	  deleteStudent(c, blank);
+	  return;
+	}
+      */
+      int idans;
+
+     
+      
+	  if (c->getNext()->getStudent()->getID() == idans)
+	    {
+	      c->setNext(c->getNext()->getNext());
+	      c->getNext()->~Node();
+	      delete c->getNext();
+	      return;
+	    }
+	  else
+	    {
+	      deleteStudent(c, blank, idans);
+	    }
+	
     }
-    }
-  cout << "Printed!" << endl;
 }
 
 int main() {
@@ -66,26 +116,41 @@ int main() {
   Student* blank = new Student();
   Node* head = new Node(blank);
 
+  head->setNext(NULL);
+
   int response;
 
   while (1 == 1)
     {
       cout << " " << endl;
-  cout << "1 to add, 2 to print, 3 to delete" << endl;
+  cout << "1 to add, 2 to print, 3 to delete, 4 to quit" << endl;
   cin >> response;
   if (response == 1)
     {
       cout << " " << endl;
       addStudent(head, blank);
+      cout << "Added!" << endl;
     }
   else if (response == 2)
     {
       cout << " " << endl;
       printStudent(head, blank);
+      cout << "Printed!" << endl;
     }
   else if (response == 3)
     {
-
+      cout << " " << endl;
+      cout << "What is the id of the student you want to delete?" << endl;
+      int idans;
+      cin >> idans;
+      deleteStudent(head, blank, idans);
+      cout << "Deleted!" << endl;
+    }
+  else if (response == 4)
+    {
+      cout << " " << endl;
+      cout << "Quit!" << endl;
+      return 0;
     }
   else
     {
