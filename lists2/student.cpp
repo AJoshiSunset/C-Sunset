@@ -11,15 +11,6 @@ Student::Student() {
   id = 0;
   gpa = 0.0;
 }
-/*
-Student::Student(char* nameVal) {
-  name = new char[50];
-  lastname = new char[50];
-  id = 0;
-  gpa = 0.0;
-  strcpy(name, nameVal);
-}
-*/
 
 void Student::setFirstName(char* nameinput)
 {
