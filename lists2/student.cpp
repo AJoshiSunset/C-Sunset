@@ -6,7 +6,7 @@ using namespace std;
 #include "student.h"
 
 Student::Student() {
-  name = new char[50];
+  firstname = new char[50];
   lastname = new char[50];
   id = 0;
   gpa = 0.0;
@@ -21,13 +21,13 @@ Student::Student(char* nameVal) {
 }
 */
 
-void Student::setName(char* nameval)
+void Student::setFirstName(char* nameinput)
 {
-  strcpy(name, nameval);
+  strcpy(firstname, nameinput);
 }
 
-char* Student::getName() {
-  return name;
+char* Student::getFirstName() {
+  return firstname;
 }
 
 void Student::setLastName(char* lastnameval) {

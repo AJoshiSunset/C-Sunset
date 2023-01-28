@@ -17,11 +17,11 @@ class Student {
 
   //Student(char*);
 
-  char* name;
+  char* firstname;
 
-  void setName(char*);
+  void setFirstName(char*);
   
-  char* getName();
+  char* getFirstName();
 
   char* lastname;
 
