@@ -7,16 +7,18 @@ using namespace std;
 
 class Hash {
  public:
-  Hash(int);
+  Hash(int, Node*);
 
   int bucket;
-  Node *table;
+
+  Node** table;
+  //Node *table;
   //list<Node*> *table;
 
-  void insertS(Student*);
+  void insertS(Node*, Node*);
 
   void deleteS(Student*);
 
-  void displayS();
+  void displayS(Node*);
 
 };
