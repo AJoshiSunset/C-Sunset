@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstring>
 #include <iomanip>
+#include <vector>
 
 #include "student.h"
 #include "node.h"
@@ -15,12 +16,16 @@ https://www.geeksforgeeks.org/c-program-hashing-chaining/
 
 int main() {
   Student* blank = new Student();
-  Node* head = new Node(blank);
-  head->setNext(NULL);
+  Node* ma = new Node(blank);
+  ma->setNext(NULL);
 
   int hashsize = 100;
 
-  Hash* hashtable = new Hash(hashsize, head);
+  Hash* hashtable = new Hash(hashsize, blank);
+
+  vector<Node*> list;
+  int count = 0;
+  list.push_back(ma);
   
   int response;
 
@@ -62,16 +67,29 @@ int main() {
       s->setGPA(gpa);
 
       Node* n = new Node(s);
+
+      //list.push_back(n);
       n->setNext(NULL);
       
-      hashtable->insertS(n, head);
+      hashtable->insertS(n, blank);
+
+      list.push_back(n);
+      count++;
       
       cout << "Added!" << endl;
     }
   else if (response == 2)
     {
       cout << " " << endl;
-      hashtable->displayS(head);
+      hashtable->displayS(blank);
+
+      cout << "Master: " << endl;
+      for (int i = 1; i < list.size() + 1; i++)
+	{
+	  // error occuring here
+	  cout << list[i]->getStudent()->getFirstName() << ", ";
+	}
+      cout << " " << endl;
       cout << "Printed!" << endl;
     }
   else if (response == 3)
@@ -80,11 +98,29 @@ int main() {
       cout << "What is the id of the student you want to delete?" << endl;
       int idans;
       cin >> idans;
+      Node* n = list[0];
+      for (int i = 1; i < count + 1; i++)
+	{
+	  if (list[i]->getStudent()->getID() == idans)
+	    {
+	      n = list[i];
+	      delete list[i];
+	      list.erase(list.begin()+i);
+	      //list[i] = NULL;
+	      //delete list[i];
+	      //list[i] = NULL;
+	    }
+	}
+      if (n != list[0])
+	{
+	  hashtable->deleteS(n);
+	}
       cout << "Deleted!" << endl;
     }
   else if (response == 4)
     {
       cout << " " << endl;
+      
     }
   else if (response == 5)
     {

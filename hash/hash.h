@@ -7,7 +7,7 @@ using namespace std;
 
 class Hash {
  public:
-  Hash(int, Node*);
+  Hash(int, Student*);
 
   int bucket;
 
@@ -15,10 +15,10 @@ class Hash {
   //Node *table;
   //list<Node*> *table;
 
-  void insertS(Node*, Node*);
+  void insertS(Node*, Student*);
 
-  void deleteS(Student*);
+  void deleteS(Node*);
 
-  void displayS(Node*);
+  void displayS(Student*);
 
 };

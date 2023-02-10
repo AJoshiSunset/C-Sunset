@@ -36,7 +36,7 @@ using namespace std;
  }
 
 
-Hash::Hash(int b, Node* head) {
+Hash::Hash(int b, Student* blank) {
   // creates the array
   this->bucket = b;
   table = new Node*[bucket];
@@ -47,6 +47,8 @@ Hash::Hash(int b, Node* head) {
       // try this:
       // create a new head node and add it to every individual element
       // in the table
+      Node* head = new Node(blank);
+      head->setNext(NULL);
       table[i] = head;
     }
   
@@ -54,7 +56,7 @@ Hash::Hash(int b, Node* head) {
   //table = new list<Node*>[bucket];
 }
 
-void Hash::insertS(Node* key, Node* head)
+void Hash::insertS(Node* key, Student* blank)
 {
   
 
@@ -62,26 +64,40 @@ void Hash::insertS(Node* key, Node* head)
  //cout << bucket << endl;
  //cout << tableid - 1 << endl;
  Node* n = table[tableid - 1];
-  cout << "1: " << key->getStudent()->getFirstName() << endl;
+ //cout << "1: " << key->getStudent()->getFirstName() << endl;
 
- sortStudent(n, key, head);
- cout << "2: " << key->getStudent()->getFirstName() << endl;
+ sortStudent(n, key, n);
+ //cout << "2: " << key->getStudent()->getFirstName() << endl;
 }
 
-void Hash::deleteS(Student* key)
+void Hash::deleteS(Node* key)
 {
-
+  int tableid = key->getStudent()->getID() % bucket;
+  Node* n = table[tableid - 1];
+  
+  while (n != NULL)
+    {
+      if (n->getNext()->getStudent()->getID() == key->getStudent()->getID())
+	{
+	  Node* temp = n->getNext();
+	  n->setNext(temp->getNext());
+	  delete temp;
+	  break;
+	}
+      n = n->getNext();
+    }
 }
 
-void Hash::displayS(Node* head)
+void Hash::displayS(Student* blank)
 {
   for (int i = 0; i < bucket; i++)
     {
       Node* c = table[i];
 
+      cout << i + 1 << ": ";
       while (c != NULL)
 	{
-	  if (c == head)
+	  if (c->getStudent() == blank)
 	    {
 	      c = c->getNext();
 	      continue;
