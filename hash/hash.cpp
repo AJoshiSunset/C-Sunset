@@ -6,6 +6,8 @@ using namespace std;
 
 #include "hash.h"
 
+// this is the method for sorting the student within a linked list accoring
+// to id
  void sortStudent(Node* c, Node* n, Node* head)
  {
   if (c->getNext() != NULL)
@@ -35,7 +37,7 @@ using namespace std;
     }
  }
 
-
+// hashtable constructor
 Hash::Hash(int b, Student* blank) {
   // creates the array
   this->bucket = b;
@@ -44,69 +46,103 @@ Hash::Hash(int b, Student* blank) {
   // adds the head node to each spot in the array
   for (int i = 0; i < b; i++)
     {
-      // try this:
-      // create a new head node and add it to every individual element
-      // in the table
       Node* head = new Node(blank);
       head->setNext(NULL);
       table[i] = head;
     }
-  
-  //table = new Node[b];
-  //table = new list<Node*>[bucket];
 }
 
+// adding a student
 void Hash::insertS(Node* key, Student* blank)
 {
-  
-
+  // finds the appropriate place in the hashtable
  int tableid = key->getStudent()->getID() % bucket;
- //cout << bucket << endl;
- //cout << tableid - 1 << endl;
+ if (tableid == 0)
+   {
+     tableid++;
+   }
  Node* n = table[tableid - 1];
- //cout << "1: " << key->getStudent()->getFirstName() << endl;
-
  sortStudent(n, key, n);
- //cout << "2: " << key->getStudent()->getFirstName() << endl;
 }
 
-void Hash::deleteS(Node* key)
+// deleting a student
+void Hash::deleteS(int idans, Student* blank)
 {
-  int tableid = key->getStudent()->getID() % bucket;
+  // finding the right position in the hashtable
+  int tableid = idans % bucket;
   Node* n = table[tableid - 1];
-  
-  while (n != NULL)
+
+  // iterating through the linked list and deleting it
+   while (n != NULL)
     {
-      if (n->getNext()->getStudent()->getID() == key->getStudent()->getID())
-	{
-	  Node* temp = n->getNext();
-	  n->setNext(temp->getNext());
-	  delete temp;
-	  break;
-	}
+      if (n->getNext()->getStudent()->getID() == idans)
+        {
+          Node* temp = n->getNext();
+          n->setNext(n->getNext()->getNext());
+          temp->~Node();
+          delete temp;
+          return;
+        }
       n = n->getNext();
     }
-}
+  
+ }
 
+// printing the hashtable
 void Hash::displayS(Student* blank)
 {
   for (int i = 0; i < bucket; i++)
     {
       Node* c = table[i];
 
-      cout << i + 1 << ": ";
-      while (c != NULL)
+      // iterates through every element in the array
+      if (c->getNext() != NULL)
 	{
-	  if (c->getStudent() == blank)
-	    {
-	      c = c->getNext();
-	      continue;
-	    }
-	  cout << c->getStudent()->getFirstName() << " " << c->getStudent()->getLastName() << ", " << c->getStudent()->getID() << ", " << setprecision(3) << c->getStudent()->getGPA() << " | ";
-	  c = c->getNext();
+	  cout << i + 1 << ": " << endl;
 	}
-      cout << " " << endl;
+      while (c->getNext() != NULL)
+	{
+	  // prints the elements of the student
+	  cout << c->getNext()->getStudent()->getFirstName() << endl;
+	  cout << c->getNext()->getStudent()->getLastName() << endl;
+	  cout << "ID: " << c->getNext()->getStudent()->getID() << endl;
+	  cout << "GPA: " << setprecision(3) << c->getNext()->getStudent()->getGPA() << endl;
+	  cout << " " << endl;
+	  c = c->getNext();
+	  
+	}
+      //cout << "---" << endl;
     }
+  cout << "Hashtable Size: " << bucket << endl;
 }
 
+// checks if there are more than three students in a row 
+bool Hash::checkForRehash()
+{
+  for (int i = 0; i < bucket; i++)
+    {
+      Node* c = table[i];
+      if (c->getNext() != NULL)
+	{
+	  c = c->getNext();
+	  if (c->getNext() != NULL)
+	    {
+	      c = c->getNext();
+	      if (c->getNext() != NULL)
+		{
+		  c = c->getNext();
+		  if (c->getNext() != NULL)
+		    {
+		      c = c->getNext();
+		      if (c->getNext() == NULL)
+			{
+			  return true;
+			} 
+		    }
+		}
+	    }
+	}
+    }
+  return false;
+}
 
