@@ -10,6 +10,26 @@ using namespace std;
   parent: floor(index / 2)
  */
 
+/*
+  strt at 1.
+  check the 2x+1. exists?
+  if yes then check it again and go back ^
+  if no then print it
+  then go back and print the parent
+  then check the 2x. exists?
+  if yes then check 2x + 1 exists
+  if no to above then print
+  go back to parent, already printed so back another parent
+  print
+  check 2x. exists?
+  if yes then check 2x + 1. exists?
+  if yes then print
+  if no then go back and print parent
+  check 2x. exists? if yes check 2x +1. if no more beyond that, print
+  go back and print parent
+  check 2x. exists? check 2x +1. if no, then print
+ */
+
 int main()
 {
 
