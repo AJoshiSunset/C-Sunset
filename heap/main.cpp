@@ -30,6 +30,45 @@ using namespace std;
   check 2x. exists? check 2x +1. if no, then print
  */
 
+int findRight(int index, int used)
+{
+  if (2 * index + 1 <= used)
+    {
+      index = index * 2 + 1;
+    }
+  return index;
+}
+
+int findLeft(int index, int used)
+{
+  while (index * 2 <= used)
+    {
+      index = index * 2;
+    }
+  return index;
+}
+
+int findParent(int index)
+{
+  index = floor(index / 2);
+  if (index == 0)
+    {
+      index++;
+    }
+  return index;
+}
+
+void addDashes(int index)
+{
+
+  while (index != 1)
+    {
+      index = floor(index / 2);
+      cout << " ";
+    }
+    
+}
+
 int main()
 {
 
@@ -70,6 +109,62 @@ int main()
       else if (response == 2)
 	{
 	  cout << " " << endl;
+	  int printed = 0;
+	  index = 1;
+	  while (printed < used)
+	    {
+	      index = findLeft(index, used);
+	      addDashes(index);
+	      cout << tree[index] << endl;
+	      printed++;
+	      if (printed >= used)
+		{
+		  break;
+		}
+	      index = findParent(index);
+	      addDashes(index);
+	      cout << tree[index] << endl;
+	      printed++;
+	       if (printed >= used)
+                {
+                  break;
+                }
+	       if (index != findRight(index, used))
+		 {
+	      index = findRight(index, used);
+	      addDashes(index);
+	      cout << tree[index] << endl;
+	      printed++;
+		 
+	       if (printed >= used)
+                {
+                  break;
+                }
+		 }
+	      if (index != findLeft(index, used))
+		{
+		  continue;
+		}
+	      while(index != 1)
+		{
+		  index = findParent(index);
+		}
+	      //index = findParent(index);
+	      //index = findParent(index);
+	      /*
+	      addDashes(index);
+	      cout << tree[index] << endl;
+	      printed++;
+	       if (printed >= used)
+                {
+                  break;
+                }
+	      */
+	      index = findRight(index, used);
+	    }
+	 
+	  
+	  cout << " " << endl;
 	  //cout << tree[1] << endl;
 	  for (int i = 1; i < used + 1; i++)
 	    {
@@ -77,6 +172,7 @@ int main()
 	      //cout << tree[i * 2] << endl;
 	      //cout << tree[i * 2 + 1] << endl;
 	    }
+	  
 	  cout << "Used: " << used << endl;
 	  cout << "Printed!" << endl;
 	  cout << " " << endl;
