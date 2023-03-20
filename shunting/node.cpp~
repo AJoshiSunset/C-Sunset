@@ -1,0 +1,12 @@
+#include <iostream>
+#include <cstring>
+#include <vector>
+
+using namespace std;
+
+#include "node.h"
+
+node::node(node* nextInput, char tokenInput) {
+  next = nextInput;
+  token = tokenInput;
+}

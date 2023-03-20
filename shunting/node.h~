@@ -1,0 +1,15 @@
+#include <iostream>
+#include <cstring>
+#include <vector>
+
+using namespace std;
+
+class node: {
+ public:
+  node(node*, char);
+
+  node* next;
+
+  char token;
+  
+}

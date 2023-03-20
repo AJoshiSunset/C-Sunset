@@ -1,0 +1,27 @@
+#include <iostream>
+#include <cstring>
+#include <vector>
+
+using namespace std;
+
+#include "bnode.h"
+
+bnode::bnode(char tokenInput) {
+  token = tokenInput;
+}
+
+bnode::setNext(bnode* nextInput) {
+  next = nextInput;
+}
+
+bnode::setRight(bnode* rightInput) {
+  rightbnode = rightInput;
+}
+
+bnode::setLeft(bnode* leftInput) {
+  leftbnode = leftInput;
+}
+
+bnode::setSub(bnode* subInput) {
+  subbnode = subInput;
+}
