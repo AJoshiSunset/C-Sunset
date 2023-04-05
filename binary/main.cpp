@@ -65,8 +65,19 @@ void printAll(node* current, int count) {
       cout << current->token << endl;
       printAll(current->left, count);
     }
-  
 
+}
+
+bool search(node* current, int val) {
+  if (current == NULL)
+    {
+      return 0;
+    }
+  if (current->token == val)
+    {
+      return 1;
+    }
+  return search(current->right, val) + search(current->left, val);
 }
 
 int main() {
@@ -79,7 +90,7 @@ int main() {
   while (1 == 1)
     {
       cout << " " << endl;
-  cout << "1 to Add, 2 to Print " << endl;
+  cout << "1 to Add, 2 to Print, 3 to Search" << endl;
   cin >> response;
 
   if (response == 1)
@@ -101,6 +112,24 @@ int main() {
       cout << " " << endl;
       printAll(head, 0);
       cout << "Printed!" << endl;
+    }
+  else if (response == 3)
+    {
+      cin.get();
+      cout << " " << endl;
+      int ans;
+      cout << "What is the number you want to find?" << endl;
+      cin >> ans;
+
+      if (search (head, ans) == 1)
+	{
+	  cout << "Yes, " << ans << " is in the tree!" << endl;
+	}
+      else
+	{
+	  cout << "No, " << ans << " is not in the tree." << endl;
+	}
+      
     }
   
   //cout << "Head: " << head->token << endl; 
