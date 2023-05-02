@@ -352,7 +352,8 @@ void findSibling(node*& head, node* n, node*& s)
 // also called on the parent after a case 4 rotation
 void rotation2(node* n, node* p, int nLorR, node*& head)
 {
-
+  int pLorR = 0;
+  findLorR(head, head, p, pLorR);
   if (p != head)
     {
       // if the parent is not the head
@@ -365,13 +366,29 @@ void rotation2(node* n, node* p, int nLorR, node*& head)
 	    {
 	      node* temp = n->right;
 	      n->right = p;
+	      if (pLorR == 2)
+	    {
+	      g->right = n;
+	    }
+	  else
+	    {
 	      g->left = n;
+	    }
+	      //g->right = n;
 	      p->left = temp;
 	    }
 	  else
 	    {
 	      n->right = p;
+	      if (pLorR == 2)
+	    {
+	      g->right = n;
+	    }
+	  else
+	    {
 	      g->left = n;
+	    }
+	      // g->right = n;
 	      p->left = NULL;
 	    }
      
@@ -387,13 +404,31 @@ void rotation2(node* n, node* p, int nLorR, node*& head)
 	    {
 	      node* temp = n->left;
 	      n->left = p;
+	       if (pLorR == 2)
+	    {
 	      g->right = n;
+	    }
+	  else
+	    {
+	      g->left = n;
+	    }
+	       // g->left = n;
 	      p->right = temp;
 	    }
 	  else
 	    {
 	      n->left = p;
+	      
+	  if (pLorR == 2)
+	    {
 	      g->right = n;
+	    }
+	  else
+	    {
+	      g->left = n;
+	    }
+	  
+	  //g->left = n;
 	      p->right = NULL;
 	    }
 	}
@@ -454,6 +489,7 @@ void rotation(node* n, node* p, node* g, int nLorR, int pLorR, node*& head)
 	}
       else
 	{
+	  
 	  g->left = n;
 	  n->left = p;
 	  p->right = NULL;
@@ -492,6 +528,7 @@ void rotation(node* n, node* p, node* g, int nLorR, int pLorR, node*& head)
     }
   int nLorR2 = 0;
   findLorR(head, head, n, nLorR2);
+  cout << nLorR2 << endl;
   rotation2(n, g, nLorR2, head);
 }
 
@@ -630,12 +667,20 @@ int main() {
       cout << " " << endl;
       int ans;
       cout << "Enter number: " << endl;
+      while (true)
+	{
       cin >> ans;
-
+      
+	
       node* n = new node(ans);
       n->color = 'r';
       addNode(head, n, head);
-      
+
+      if (cin.peek() == '\n')
+	{
+	  break;
+	}
+	}
       cout << "Added!" << endl;
       
     }
@@ -723,6 +768,7 @@ int main() {
 	  node* n = new node(stoi(line));
 	  n->color = 'r';
 	  addNode(head, n, head);
+	  callParentUncle(head, head);
 	}
       Numbers.close();
 
