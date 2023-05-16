@@ -7,11 +7,11 @@ using namespace std;
 
 /*
   Name: Avanish Joshi
-  Date: 4/30/23
-  Project: This is the Red-Black Tree insertion
-  project. It uses 'red' and 'black' nodes to
-  sort itself out. It is a self-balancing
-  binary tree.
+  Date: 5/14/23
+  Project: This is the Red-Black Tree deletion
+  project. It is the same as the previous project,
+  except the user can delete nodes from the tree
+  now
  */
 
 // class of the node, making the variables
@@ -416,6 +416,48 @@ void rotation(node* n, node* p, node* g, int nLorR, int pLorR, node*& head)
   rotation2(n, g, nLorR2, head);
 }
 
+// the case 5 rotation used during deletion. used for when
+// the sibling is black and its children have opposite colors
+void rotation3(node* n, node* p, int nLorR, node*& head)
+{
+  if (nLorR == 1)
+    {
+      // node is a left child
+      node* temp = n->right;
+      if (n->right->left != NULL)
+	{
+	  node* temp2 = n->right->left;
+	  p->left = temp;
+	  temp->left = n;
+	  n->right = temp2;
+	}
+      else
+	{
+	  p->left = temp;
+	  temp->left = n;
+	  n->right = NULL;
+	}
+    }
+  else if (nLorR == 2)
+    {
+      // node is a right child
+      node* temp = n->left;
+      if (n->left->right != NULL)
+	{
+	  node* temp2 = n->left->right;
+	  p->right = temp;
+	  temp->right = n;
+	  n->left = temp2;
+	}
+      else
+	{
+	  p->right = temp;
+	  temp->right = n;
+	  n->left = NULL;
+	}
+    }
+}
+
 // the function called every iteration. it finds the colors
 // of a node, its parent, and its uncle. decides what to do
 // based on repeat reds occuring in the tree
@@ -531,6 +573,7 @@ void callParentUncle(node* n, node*& head)
     }
 }
 
+// the "case 0" deletion function, the simplest deletion
 void delete0(node*& head, node* n, node* k, int nLorR)
 {
   if (n == head)
@@ -555,6 +598,8 @@ void delete0(node*& head, node* n, node* k, int nLorR)
   k->color = 'b';
 }
 
+// the case 1 deletion used for determining the head,
+// called recursively on parent
 void delete1(node*& head, node* n)
 {
   if (n->right != NULL && n->left == NULL)
@@ -580,15 +625,21 @@ void delete1(node*& head, node* n)
     }
 }
 
+// the mainfunction used for deleting a node
 void deleteNode(node* n, node*& head)
 {
+  bool caseCalled = false;
+  
   int nLorR = 0;
   findLorR(head, head, n, nLorR);
 
   node* s = head;
   findSibling(head, n, s);
   int sLorR = 0;
-  findLorR(head, head, s, sLorR);
+  if (s != NULL)
+    {
+      findLorR(head, head, s, sLorR);
+    }
   
   node* p = head;
   findParent(head, n, p);
@@ -598,11 +649,14 @@ void deleteNode(node* n, node*& head)
   node* u = head;
   findSibling(head, p, u);
   int uLorR = 0;
-  findLorR(head, head, u, uLorR);
-
+  if (u != NULL)
+    {
+      findLorR(head, head, u, uLorR);
+    }
+  
   node* g = head;
   findParent(head, p, g);
-
+  
   // n has one non leaf child
   if (n->right == NULL && n->left != NULL)
     {
@@ -616,7 +670,9 @@ void deleteNode(node* n, node*& head)
 	    {
 	      // case 1
 	      head = n->left;
+	      //caseCalled = true;
 	      delete n;
+	      return;
 	    }
 	}
     }
@@ -632,6 +688,7 @@ void deleteNode(node* n, node*& head)
             {
 	      // case 1
               head = n->right;
+	      //caseCalled = true;
               delete n;
             }
         }
@@ -640,33 +697,172 @@ void deleteNode(node* n, node*& head)
 
   if (s != NULL)
     {
-      if (s->color == 'r')
+      if (p->color == 'b')
 	{
-	  cout << "case2 called" << endl;
-	  // case 2: sibling is red
-	  rotation2(s, p, sLorR, head);
-	  cout << "rotation finihed" << endl;
-	  s->color = 'b';
-	  p->color = 'r';
-	  // call case 3 on n
-	  printAll(head, 0);
-	  deleteNode(n, head);
+	  if (s->right == NULL || s->left == NULL)
+	    {
+	      if (s->color == 'r')
+		{
+		  // case 2: sibling is red
+		  rotation2(s, p, sLorR, head);
+		  s->color = 'b';
+		  p->color = 'r';
+		  //caseCalled = true;
+		  //deleteNode(n, head);
+		}
+	      else if (s->color == 'b')
+		{
+		  // case 3: sibling is black
+		  s->color = 'r';
+		  //caseCalled = true;
+		  delete1(head, p);
+		}
+	    }
+	  else if (s->right->color != 'r' && s->left->color != 'r')
+	    {
+	       if (s->color == 'r')
+                {
+                  // case 2: sibling is red
+                  rotation2(s, p, sLorR, head);
+                  s->color = 'b';
+                  p->color = 'r';
+		  //caseCalled = true;
+                  //deleteNode(n, head);
+                }
+              else if (s->color == 'b')
+                {
+                  // case 3: sibling is black
+                  s->color = 'r';
+		  //caseCalled = true;
+                  delete1(head, p);
+                }
+	    }
+
 	}
-      else if (s->color == 'b')
+
+      // case 4: parent is red, sibling is black
+      // and both of sibling's children are black
+      if (p->color == 'r' && s->color == 'b')
 	{
-	  // case 3: sibling is black/null
-	  s->color = 'r';
-	  delete1(head, p);
+	  if (s->right != NULL && s->left != NULL)
+	    {
+	      if (s->right->color == 'b' && s->left->color == 'b')
+		{
+		  p->color = 'b';
+		  s->color = 'r';
+		  //caseCalled = true;
+		  //deleteNode(n, head);
+		}
+	    }
 	}
+
+      // case 5:
+      // node is right child, sibling is black, sibling's
+      // left child is black and sibling's right child is red
+      // OR
+      // node is left child, sibling is black, sibling's
+      // left child is red, and sibling's right child is black
+      if (s->right != NULL && s->left != NULL)
+	{
+	  if (nLorR == 2 && s->color == 'b')
+	    {
+	      if (s->left->color == 'b' && s->right->color == 'r')
+		{
+		  node* temp = s->right;
+		  rotation3(s, p, sLorR, head);
+		  s->color = 'r';
+		  temp->color = 'b';
+		  //caseCalled = true;
+		  //deleteNode(n, head);
+		}
+	    }
+	  else if (nLorR == 1 && s->color == 'b')
+	    {
+	      if (s->left->color == 'r' && s->right->color == 'b')
+		{
+		  node* temp = s->left;
+		  rotation3(s, p, sLorR, head);
+		  s->color = 'r';
+		  temp->color = 'b';
+		  //caseCalled = true;
+		  //deleteNode(n, head);
+		}
+	    }
+	}
+
+      // case 6:
+      // sibling is black, node is right child, and sibling's
+      // left child is red
+      // OR
+      // sibling is black, node is left child, and sibling's
+      // right child is red
+      if (s->color == 'b' && nLorR == 2)
+	{
+	  if (s->left != NULL)
+	    {
+	      if (s->left->color == 'r')
+		{
+		  node* temp = s->left;
+		  rotation2(s, p, sLorR, head);
+		  
+		  if (p->color == 'r')
+		    {
+		      s->color = 'r';
+		    }
+		  else
+		    {
+		      s->color = 'b';
+		    }
+		  p->color = 'b';
+		  temp->color = 'b';
+		  //caseCalled = true;
+		  //deleteNode(n, head);
+		}
+	    }
+	}
+      else if (s->color == 'b' && nLorR == 1)
+	{
+	  if (s->right != NULL)
+	    {
+	      if (s->right->color == 'r')
+		{
+		  node* temp = s->right;
+		  rotation2(s, p, sLorR, head);
+
+		  if (p->color == 'r')
+                    {
+                      s->color = 'r';
+                    }
+                  else
+                    {
+                      s->color = 'b';
+                    }
+                  p->color = 'b';
+		  temp->color = 'b';
+		  //caseCalled = true;
+		  //deleteNode(n, head);
+		}
+	    }
+	}
+      
     }
-  else
+
+  if (caseCalled == false)
     {
-      // case 3: sibling is black/null
-      s->color = 'r';
-      delete1(head, p);
+      if (nLorR == 1)
+	{
+	  p->left = NULL;
+	}
+      else if (nLorR == 2)
+	{
+	  p->right = NULL;
+	}
+      delete n;
     }
+  
 }
 
+// function used to find the in order successor
 void findIOS(node*& head, node* n, node*& i)
 {
   bool again = true;
@@ -750,7 +946,6 @@ int main() {
     }
   else if (response == 4)
     {
-      
       // delete a number from the tree
       cin.get();
       cout << "  " << endl;
@@ -780,18 +975,17 @@ int main() {
 		}
 	    }
 
+	  // find the in order successor
 	  node* i = n;
 	  if (n->right != NULL)
 	    {
 	      i = n->right;
 	      findIOS(head, n->right, i);
 	    }
-	  cout << "preswap ios: " << i->token << endl;
 	  int iostoken = i->token;
 	  i->token = n->token;
 	  n->token = iostoken;
-	  cout << "swapped ios: " << i->token << endl;
-	  
+          
 	  //n = nodeSearch(head, ans);
 	  deleteNode(i, head);
 	  cout << "Deleted!" << endl;
