@@ -149,6 +149,8 @@ void findLorR(node*& head, node* c, node* n, int& LorR)
     }
 }
 
+
+
 // function for finding the parent of a node
 void findParent(node*& head, node* n, node*& p)
 { 
@@ -177,6 +179,49 @@ void findParent(node*& head, node* n, node*& p)
   else
     {
       p = NULL;
+    }
+}
+
+void findParent2(node*& head, node* n, node*& p)
+{
+  if (p->left == n || p->right == n)
+    {
+      return;
+    }
+  else
+    {
+      if (p->right != NULL)
+	{
+	  findParent2(head, n, p->right);
+	}
+      if (p->left != NULL)
+	{
+	  findParent2(head, n, p->left);
+	}
+    }
+}
+
+void findLorR2(node*& head, node* n, int& LorR)
+{
+  cout << "findLorR2 called" << endl;
+  node* p = head;
+  findParent2(head, n, p);
+  
+  cout << "parent: " << p->token << endl;
+
+  if (p->right != NULL)
+    {
+      if (p->right == n)
+	{
+	  LorR = 2;
+	}
+    }
+  if (p->left != NULL)
+    {
+      if (p->left == n)
+	{
+	  LorR = 1;
+	}
     }
 }
 
@@ -229,6 +274,36 @@ void findSibling(node*& head, node* n, node*& s)
     {
       s = NULL;
     }
+}
+
+void findSibling2(node*& head, node* n, node*& s, int nLorR)
+{
+  cout << "findsibling2 called" << endl;
+  node* p = head;
+  findParent2(head, n, p);
+
+  if (nLorR == 2)
+    {
+      if (p->left != NULL)
+	{
+	  s = p->left;
+	}
+      else
+	{
+	  s = NULL;
+	}
+    }
+  else
+    {
+      if (p->right != NULL)
+	{
+	  s = p->right;
+	}
+      else
+	{
+	  s = NULL;
+	}
+   }
 }
 
 // the case 5 rotation function. Used for when a red node
@@ -626,13 +701,26 @@ void delete1(node*& head, node* n)
 }
 
 // the mainfunction used for deleting a node
-void deleteNode(node* n, node*& head)
+void deleteNode(node* n, node*& head, node* ogn, bool firstCalled)
 {
+   int ogntoken = ogn->token;
+  if (firstCalled == true)
+    {
+      ogn->token = n->token;
+      n->token = ogntoken;
+    }
+  
+  //cout << "deletenode called" << endl;
+  //cout << "n: " << n->token << endl;
+  //printAll(head, 0);
   bool caseCalled = false;
   
   int nLorR = 0;
   findLorR(head, head, n, nLorR);
-
+  //findLorR2(head, n, nLorR);
+  
+  cout << "nLorR passed" << endl;
+  
   node* s = head;
   findSibling(head, n, s);
   int sLorR = 0;
@@ -640,12 +728,27 @@ void deleteNode(node* n, node*& head)
     {
       findLorR(head, head, s, sLorR);
     }
+  cout << "sibling passed" << endl;
   
   node* p = head;
   findParent(head, n, p);
   int pLorR = 0;
   findLorR(head, head, p, pLorR);
 
+  cout << "parent passed" << endl;
+  
+  if (firstCalled == true)
+    {
+      ogntoken = ogn->token;
+      ogn->token = n->token;
+      n->token = ogntoken;
+    }
+  firstCalled = false;
+
+  //cout << "2nd" << endl;
+  //printAll(head, 0);
+  
+  /*
   node* u = head;
   findSibling(head, p, u);
   int uLorR = 0;
@@ -656,6 +759,9 @@ void deleteNode(node* n, node*& head)
   
   node* g = head;
   findParent(head, p, g);
+  */
+  
+  // cout << "s: " << s->token  << endl;
   
   // n has one non leaf child
   if (n->right == NULL && n->left != NULL)
@@ -703,6 +809,7 @@ void deleteNode(node* n, node*& head)
 	    {
 	      if (s->color == 'r')
 		{
+		  cout << "case 2" << endl;
 		  // case 2: sibling is red
 		  rotation2(s, p, sLorR, head);
 		  s->color = 'b';
@@ -868,9 +975,9 @@ void findIOS(node*& head, node* n, node*& i)
   bool again = true;
   while(again == true)
     {
-      if (n->left != NULL)
+      if (n->right != NULL)
 	{
-	  n = n->left;
+	  n = n->right;
 	  again = true;
 	}
       else
@@ -977,17 +1084,19 @@ int main() {
 
 	  // find the in order successor
 	  node* i = n;
-	  if (n->right != NULL)
+	  if (n->left != NULL)
 	    {
-	      i = n->right;
-	      findIOS(head, n->right, i);
+	      i = n->left;
+	      findIOS(head, n->left, i);
 	    }
+	  int ntoken = n->token;
 	  int iostoken = i->token;
 	  i->token = n->token;
 	  n->token = iostoken;
-          
+	  //cout << "n: " << n->token << endl;
+          //cout << "ios: " << i->token << endl;
 	  //n = nodeSearch(head, ans);
-	  deleteNode(i, head);
+	  deleteNode(i, head, n, true);
 	  cout << "Deleted!" << endl;
 	}
       else
